@@ -1,0 +1,255 @@
+[gd_scene load_steps=21 format=3 uid="uid://b1eb6go5tiymd"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_ge4a5"]
+[ext_resource type="Script" path="res://Actors/ball.gd" id="1_m5qjp"]
+[ext_resource type="Script" path="res://Actors/paddle.gd" id="2_o1xw1"]
+[ext_resource type="PackedScene" uid="uid://7vjr3a4c8yv2" path="res://Actors/Brick.tscn" id="3_ak7gq"]
+[ext_resource type="Texture2D" uid="uid://bguaum1wffu5n" path="res://Actors/Paddy the Paddle.png" id="5_fq3cv"]
+[ext_resource type="PackedScene" uid="uid://ct70vgfmg3o67" path="res://Actors/slow_mo.tscn" id="5_r6fjj"]
+[ext_resource type="PackedScene" uid="uid://dr0225l4tq3ct" path="res://Actors/speedo.tscn" id="6_s5fnq"]
+[ext_resource type="Script" path="res://camera_2d.gd" id="8_wq4tf"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_4jxhk"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_tj1e4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vn8pj"]
+size = Vector2(6.4267, 4.12713)
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_xetnf"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l07hl"]
+size = Vector2(100, 20)
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_h17ee"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_difeo"]
+size = Vector2(20, 672)
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_h88uv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_axuhf"]
+size = Vector2(20, 669)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kw12j"]
+size = Vector2(1346.5, 31)
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_njo7f"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gakrq"]
+size = Vector2(1170, 20)
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_ge4a5")
+
+[node name="Ball" type="CharacterBody2D" parent="." node_paths=PackedStringArray("paddle_particle", "score_label", "start_text")]
+position = Vector2(567, 412)
+scale = Vector2(22.4538, 21.2267)
+motion_mode = 1
+script = ExtResource("1_m5qjp")
+paddle_particle = NodePath("Collision_particle")
+score_label = NodePath("../Score")
+start_text = NodePath("../StartText")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="Ball"]
+visible = false
+position = Vector2(0, 0.033144)
+scale = Vector2(0.0365656, 0.0331442)
+amount = 100
+texture = SubResource("CanvasTexture_4jxhk")
+emission_shape = 2
+emission_sphere_radius = 10.29
+spread = 109.9
+angular_velocity_min = 301.94
+angular_velocity_max = 301.94
+scale_amount_max = 9.06
+color = Color(0.572549, 1, 1, 1)
+anim_speed_max = 9.29
+
+[node name="Sprite2D" type="Sprite2D" parent="Ball"]
+texture = SubResource("CanvasTexture_tj1e4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ball"]
+position = Vector2(-4.02331e-07, 5.96046e-07)
+rotation = -3.14159
+scale = Vector2(0.136699, -0.169031)
+shape = SubResource("RectangleShape2D_vn8pj")
+
+[node name="Collision_particle" type="CPUParticles2D" parent="Ball"]
+scale = Vector2(0.0365656, 0.0331442)
+emitting = false
+amount = 100
+one_shot = true
+texture = SubResource("CanvasTexture_xetnf")
+emission_shape = 2
+emission_sphere_radius = 49.65
+spread = 0.0
+gravity = Vector2(0, -200)
+radial_accel_min = 0.05
+radial_accel_max = 138.95
+angle_min = 720.0
+angle_max = 720.0
+scale_amount_max = 2.5
+color = Color(1, 1, 0, 1)
+
+[node name="SlowMo" type="Timer" parent="Ball"]
+wait_time = 5.0
+one_shot = true
+
+[node name="Speedo" type="Timer" parent="Ball"]
+wait_time = 5.0
+one_shot = true
+
+[node name="Paddle" type="CharacterBody2D" parent="." groups=["Paddle"]]
+position = Vector2(572, 602)
+scale = Vector2(1.2716, 1.46485)
+script = ExtResource("2_o1xw1")
+
+[node name="Sprite2D" type="Sprite2D" parent="Paddle"]
+texture_filter = 1
+texture = ExtResource("5_fq3cv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Paddle"]
+scale = Vector2(0.984971, 0.968224)
+shape = SubResource("RectangleShape2D_l07hl")
+
+[node name="Wall Left" type="StaticBody2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Wall Left"]
+modulate = Color(1, 1, 0, 1)
+position = Vector2(1.19209e-07, 323.5)
+scale = Vector2(20, 677)
+texture = SubResource("CanvasTexture_h17ee")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall Left"]
+position = Vector2(0, 326)
+shape = SubResource("RectangleShape2D_difeo")
+
+[node name="Wall Right" type="StaticBody2D" parent="."]
+position = Vector2(1152, 0)
+scale = Vector2(0.903362, 0.973439)
+
+[node name="Sprite2D" type="Sprite2D" parent="Wall Right"]
+modulate = Color(1, 1, 0, 1)
+position = Vector2(0, 329.447)
+scale = Vector2(19.553, 678.632)
+texture = SubResource("CanvasTexture_h88uv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall Right"]
+position = Vector2(0, 324.5)
+shape = SubResource("RectangleShape2D_axuhf")
+
+[node name="GameOver" type="StaticBody2D" parent="." groups=["GameOver"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GameOver"]
+position = Vector2(576, 671)
+shape = SubResource("RectangleShape2D_kw12j")
+
+[node name="Wall Roof" type="StaticBody2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Wall Roof"]
+modulate = Color(1, 1, 0, 1)
+position = Vector2(575, -0.5)
+scale = Vector2(1170, 21)
+texture = SubResource("CanvasTexture_njo7f")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall Roof"]
+position = Vector2(575, 0)
+shape = SubResource("RectangleShape2D_gakrq")
+
+[node name="Bricks" type="Node2D" parent="."]
+
+[node name="Brick" parent="Bricks" instance=ExtResource("3_ak7gq")]
+position = Vector2(120, 144)
+
+[node name="Brick2" parent="Bricks" instance=ExtResource("3_ak7gq")]
+position = Vector2(248, 144)
+
+[node name="Brick3" parent="Bricks" instance=ExtResource("3_ak7gq")]
+position = Vector2(376, 144)
+
+[node name="Brick4" parent="Bricks" instance=ExtResource("3_ak7gq")]
+position = Vector2(504, 144)
+
+[node name="Brick5" parent="Bricks" instance=ExtResource("3_ak7gq")]
+position = Vector2(632, 144)
+
+[node name="Brick6" parent="Bricks" instance=ExtResource("3_ak7gq")]
+position = Vector2(760, 144)
+
+[node name="Brick7" parent="Bricks" instance=ExtResource("3_ak7gq")]
+position = Vector2(888, 144)
+
+[node name="Brick8" parent="Bricks" instance=ExtResource("3_ak7gq")]
+position = Vector2(1016, 144)
+
+[node name="Brick11" parent="Bricks" instance=ExtResource("3_ak7gq")]
+position = Vector2(312, 200)
+
+[node name="Brick12" parent="Bricks" instance=ExtResource("3_ak7gq")]
+position = Vector2(440, 200)
+
+[node name="Brick13" parent="Bricks" instance=ExtResource("3_ak7gq")]
+position = Vector2(568, 200)
+
+[node name="Brick14" parent="Bricks" instance=ExtResource("3_ak7gq")]
+position = Vector2(696, 200)
+
+[node name="Brick15" parent="Bricks" instance=ExtResource("3_ak7gq")]
+position = Vector2(824, 200)
+
+[node name="Brick17" parent="Bricks" instance=ExtResource("3_ak7gq")]
+position = Vector2(120, 256)
+
+[node name="Brick18" parent="Bricks" instance=ExtResource("3_ak7gq")]
+position = Vector2(248, 256)
+
+[node name="Brick20" parent="Bricks" instance=ExtResource("3_ak7gq")]
+position = Vector2(504, 256)
+
+[node name="Brick21" parent="Bricks" instance=ExtResource("3_ak7gq")]
+position = Vector2(632, 256)
+
+[node name="Brick23" parent="Bricks" instance=ExtResource("3_ak7gq")]
+position = Vector2(888, 256)
+
+[node name="Brick24" parent="Bricks" instance=ExtResource("3_ak7gq")]
+position = Vector2(1016, 256)
+
+[node name="SlowMo" parent="Bricks" instance=ExtResource("5_r6fjj")]
+position = Vector2(376, 256)
+scale = Vector2(2.51201, 3.47951)
+
+[node name="SlowMo2" parent="Bricks" instance=ExtResource("5_r6fjj")]
+position = Vector2(760, 256)
+scale = Vector2(2.51201, 3.47951)
+
+[node name="Speedo" parent="Bricks" instance=ExtResource("6_s5fnq")]
+position = Vector2(184, 200)
+scale = Vector2(1.14548, 0.796575)
+
+[node name="Speedo2" parent="Bricks" instance=ExtResource("6_s5fnq")]
+position = Vector2(952, 200)
+scale = Vector2(1.14548, 0.796575)
+
+[node name="Score" type="RichTextLabel" parent="."]
+offset_left = 24.0
+offset_top = 16.0
+offset_right = 399.0
+offset_bottom = 95.0
+theme_override_font_sizes/normal_font_size = 45
+text = "SCORE: 0"
+
+[node name="StartText" type="RichTextLabel" parent="."]
+offset_left = 425.0
+offset_top = 312.0
+offset_right = 742.0
+offset_bottom = 396.0
+theme_override_font_sizes/normal_font_size = 45
+text = "[Click to Start]"
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(576, 328)
+script = ExtResource("8_wq4tf")
+
+[connection signal="timeout" from="Ball/SlowMo" to="Ball" method="_on_slow_mo_timeout"]
